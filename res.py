@@ -129,6 +129,3 @@ def check_res():
 
 
 
-print(check_res())
-
-
