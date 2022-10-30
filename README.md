@@ -1,6 +1,10 @@
-Lang: Python 3.9. Project name:
+Lang: Python 3.9 / OS Win 10 
 
-# Licence generator for NCR Aloha POS to Storehouse v4 Data Converter Utility
+Project name:
+
+# Licence generate
+
+-using request key from Licence_request project
 
 Project goal: Use licence request from AlohaSH4_licrequest app and generate license file res.dat
 
