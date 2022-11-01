@@ -1,6 +1,6 @@
 Python 3.9 / OS Win 10 
 
-# Licence generate
+# Licence Generate
 
 Goal: Using the license request code from License_Request_app and picking the period of date, will generate a license file, named res.dat. This file will contain generated license code binding to the picked period of time and to the concrete PC where was made the request code.
 
