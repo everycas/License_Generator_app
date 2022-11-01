@@ -10,7 +10,6 @@ PERIOD = res.periods1
 # множитель
 NUM = 0  # формируется cbox-ами str(тариф) + str(период) т.е. 1 + 11 = 111
 FACTOR = res.factor  # множитель кол-ва символов в файле берется из res файла
-
 COLOR = "#F5F5DC"
 
 
@@ -43,16 +42,17 @@ def rnum_uid(rnum: str):
     l = rnum.split('-')
     mask = f"{l[2]}{l[4]}{l[1]}"
     uid = mask[::-1]
+    
     return uid
 
 
 def gui():
 
-    """ Интерфейс программы """
+    """ Интерфейс программы / GUI """
 
     def update_button():
 
-        """ Функционал кнопки Update """
+        """ Функционал кнопки Update / 'Update' button actions """
 
         num = entry_rnum.get()
         uid = rnum_uid(rnum=num)
@@ -60,7 +60,7 @@ def gui():
 
     def generate_button():
 
-        """ Функционал кнопки генерации файла лицензии """
+        """ Функционал кнопки генерации файла лицензии / 'Generate' button actions """
 
         global NUM, FACTOR
 
@@ -76,7 +76,7 @@ def gui():
             symbols = [choice(res.symbols) for _ in range(randint(number, number))]
             psw = letters + numbers + symbols
             shuffle(psw)
-            psw.insert(10, f"{NUM}|")  # запись контрольного номера в файл после 10го символа + | после контр.символа
+            psw.insert(10, f"{NUM}|")  # запись контрольного номера в файл после 10го символа + | после контр.символа (for inspecting in file)
             psw.insert(random.randint(20, 500), '|')
             psw.insert(random.randint(600, 1200), '|')
             psw.insert(random.randint(1300, 2000), '|')
@@ -87,9 +87,6 @@ def gui():
             psw.pop(-1)
             psw.append(uid2)
             data = ''.join(psw)
-
-            # print(data)
-            # print(len(data))
 
             with open('res.dat', 'w') as file:
                 file.write(data)
@@ -105,26 +102,26 @@ def gui():
 
     rnum = uid_rnum()
     uid = rnum_uid(rnum=rnum)
-
+    # Main window
     root = Tk()
     root.title("Gen")
     root.config(padx=5, pady=5)
     root.maxsize(width=350, height=250)
-
+    # Label
     label_uid = Label(text=uid, width=40)
     label_uid.grid(column=0, row=0, columnspan=2)
-
+    # Request code entry field
     entry_rnum = Entry(width=41, relief="sunken")
     entry_rnum.insert(0, uid_rnum())
     entry_rnum.config(state='normal', bg=COLOR)
     entry_rnum.grid(column=0, row=1, padx=3, pady=3, columnspan=2)
-
+    # Label
     label = Label(text="Tarif / Period", width=12)
     label.grid(column=0, row=2, columnspan=2)
-
+    # 
     def tarif_selected(event):
 
-        """ Функция выбора тарифа для tarif_cbox """
+        """ Функция выбора тарифа для tarif_cbox / 'Pick Tarif' actions """
 
         global PERIOD
         if tarif_cbox.current() == 0:
@@ -134,7 +131,7 @@ def gui():
         elif tarif_cbox.current() == 2:
             period_cbox['values'] = res.periods3
 
-    # GUI селектор выбора тарифа
+    # GUI селектор выбора тарифа / 'Tarif' selector
     n = StringVar()
     tarif_cbox = ttk.Combobox(root, width=17, textvariable=n, state="readonly")
     tarif_cbox['values'] = res.tarif
@@ -143,25 +140,23 @@ def gui():
 
     def period_selected(event):
 
-        """ Функция выбора тарифа для period_cbox """
+        """ Функция выбора тарифа для period_cbox / 'Pick Period' actions """
 
         global NUM
         tarif_num = str(tarif_cbox.current() + 1)
         period_num = str(period_cbox.current() + 1)
         lic_number = tarif_num + period_num
         NUM = lic_number
-        # print(NUM)
 
-    # GUI селектор выбора периода
+    # GUI селектор выбора периода / 'Pick period' selector
     n2 = StringVar()
     period_cbox = ttk.Combobox(root, width=17, textvariable=n2, state="readonly")
     period_cbox.bind("<<ComboboxSelected>>", period_selected)
     period_cbox.grid(column=1, row=3, padx=3, pady=3, sticky=NW)
-
-    # Кнопка Update
+    # Кнопка Update / 'Update' button
     button_update = Button(text="Update", width=8, height=1, command=update_button)
     button_update.grid(column=1, row=5, padx=3, pady=3, sticky=SW)
-    # Кнопка Generate
+    # Кнопка Generate / 'Generate' button
     start_button = Button(text="Generate", width=9, height=1, command=generate_button)
     start_button.grid(column=1, row=5, padx=3, pady=3, sticky=SE)
 
